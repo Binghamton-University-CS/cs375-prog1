@@ -13,17 +13,26 @@ class Card{
         string cardName;
         int gertrudePrice;
         int marketPrice;
+        int ROI;
 
     public:
+    /*
     Card(string cardName, int gertrudePrice, int marketPrice){
         this->cardName = cardName;
         this->gertrudePrice = gertrudePrice;
         this->marketPrice = marketPrice;
     }
+    */
     Card(string cardName, int gertrudePrice){
         this->cardName = cardName;
         this->gertrudePrice = gertrudePrice;
         marketPrice = -1;
+        ROI = -1;
+    }
+    Card(string cardName){
+        this->cardName = cardName;
+        gertrudePrice = -1;
+       // marketPrice = -1;
     }
      /*
      Card(string cardName, int marketPrice){
@@ -40,9 +49,11 @@ class Card{
     
 
     void printCard(){
-        cout << "Card Name: " << cardName <<
-        " Gertrude Price:  " << gertrudePrice <<
-        " Market Price: " << marketPrice << endl;
+        cout << "Gertrude Card Obj " << endl 
+        << "Card Name: " << cardName <<
+        " Gertrude Price:  " << gertrudePrice 
+        << " Market Price: " << marketPrice 
+        << " ROI: " << ROI << endl;
      }
     
     // getters and setters
@@ -54,8 +65,16 @@ class Card{
         return gertrudePrice;
     }
 
+
     int getMarketPrice() {
         return marketPrice;
+    }
+      void setMarketPrice(int p){
+        marketPrice = p;
+        ROI = marketPrice - gertrudePrice;
+    }
+    int getROI(){
+        return ROI;
     }
 
     void setCardName(string s){
@@ -65,9 +84,9 @@ class Card{
     void setGertrudePrice(int p){
         gertrudePrice = p;
     }
-    void setMarketPrice(int p){
-        marketPrice = p;
-    }
+    
+  
+    
 
 
 

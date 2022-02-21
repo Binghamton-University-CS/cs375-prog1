@@ -11,9 +11,10 @@ using namespace std;
 
 class Collection{
     private:
-        vector<Card> *setOfCards;
+        vector<Card> setOfCards;
         int numCards;
         int maxSpend;
+        int sum;
     public:
         Collection(int numCards, int maxSpend){
             this->numCards = numCards;
@@ -34,16 +35,24 @@ class Collection{
         int getNumCards(){
             return numCards;
         }
+        vector<Card> getSetOfCards(){
+            return setOfCards;
+        }
         /*
         Card getSetOfCards(){
             return setOfCards;
         }
         */
+       Card getSpecificCard(int j){
+           return setOfCards[j];
+       }
         int getSize(){
-            return setOfCards->size();
+            return setOfCards.size();
         }
         void addCard(Card myCard);
 
         void printCollection();
+        int findSum();
+        int findTotalROI();
 };
 #endif
