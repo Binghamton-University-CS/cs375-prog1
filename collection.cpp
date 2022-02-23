@@ -19,10 +19,26 @@ void Collection::printCollection(){
 
 int Collection::findSum(){
     int sum = 0;
+    cout << "NEW FIND SUM " << endl;
     for(int i = 0; i < setOfCards.size(); ++i){
         sum += setOfCards[i].getGertrudePrice();
+        cout << "CURRENT SUM:  " << sum << endl; 
     }
     return sum;
+}
+void Collection::setSum(){
+    int tempSum = 0;
+    for(int i = 0; i < setOfCards.size(); ++i){
+        tempSum += setOfCards[i].getGertrudePrice();
+    }
+    sum = tempSum;
+}
+void Collection::setTotalROI(){
+    int tempTotalROI = 0;
+    for(int i = 0; i < setOfCards.size(); ++i){
+        tempTotalROI += setOfCards[i].getROI();
+    }
+    totalROI = tempTotalROI;
 }
 
 int Collection::findTotalROI(){

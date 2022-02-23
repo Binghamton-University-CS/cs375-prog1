@@ -14,14 +14,19 @@ class Collection{
         vector<Card> setOfCards;
         int numCards;
         int maxSpend;
-        int sum;
+        int sum; // the sumOfGertPrices
+        int totalROI;
     public:
         Collection(int numCards, int maxSpend){
             this->numCards = numCards;
             this->maxSpend = maxSpend;
+            sum = -1;
+            totalROI = -1;
            //setOfCards = new vector<Card>();
-        
         }
+        Collection(){};
+        void setSum();
+        void setTotalROI();
         //get and set max Spend
         void setMaxSpend(int i){
             maxSpend = i;

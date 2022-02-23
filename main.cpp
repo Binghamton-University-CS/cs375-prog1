@@ -46,13 +46,15 @@ vector<Card> generateSubset(vector<Card>& pass, int s){
 
 
 
-int computeMaxProfit(Collection collection, int w){
+int computeMaxProfit(Collection collection, int w, int sumOfWeights){
     int sizeOfCollection = collection.getSize();
+    cout << "SIZE OF COLLECTION: " << sizeOfCollection << endl;
+
    // this is the collection set 
     int maxProfit = 0;
-    vector<Card> S;
+    vector<Card> S; // initial vector
     vector<Card> M;
-    int sumOfWeights = collection.findSum();
+   // int sumOfWeights = collection.findSum();
     if(sumOfWeights < w){
        // cout << " HIT " << endl;
         int prof = 0;
@@ -64,26 +66,59 @@ int computeMaxProfit(Collection collection, int w){
     //cout << "Size of colleciton: " << sizeOfCollection << endl;
     // cout << "Total Subsets: " << totalSubsets << endl;
     // while more subsets to generate
+    int subsetsHit = 0;
+    while(subsetsHit <= totalSubsets){
+        
+        Collection subsetCollection;
+        //vector<Card> subset;
+        string binaryRep = "";
 
-    for(int i = 0; i < collection.getSize(); ++i){
-        S.push_back(collection.getSpecificCard(i));
+        binaryRep = bitset<8>(subsetsHit).to_string();
+        cout << endl << endl;
+        cout << "BINARY REP: " << binaryRep << endl;
+
+        // use the 1's to get the indexes of a new vector that we will pass back
+        for(int i = 0; i < binaryRep.size(); ++i){
+            if(binaryRep[i] == '1'){
+                subsetCollection.addCard(collection.getSpecificCard(i));
+            }
+        }
+        subsetCollection.setSum();
+        subsetCollection.setTotalROI();
+        int tempROI = subsetCollection.findTotalROI();
+        if(tempROI > maxProfit){
+            maxProfit = tempROI;
+        }
+
+       // cout << "LINE 69:  " << collection.getSpecificCard(i) << endl;
+       // T.push_back(collection.getSpecificCard(i));
+    
+        subsetsHit++;
     }
-    for(int i = 0; i < collection.getSize(); ++i){
-        cout << S[i] << endl;
+     
+     /*
+     for(int i = 0; i < collection.getSize(); ++i){
+       // cout << "LINE 69:  " << collection.getSpecificCard(i) << endl;
+        cout << "LINE 75: " << S[i] << endl;
     }
+    */
+
+
+   /* 
     int subsetsHit = 0;
     while(subsetsHit <= totalSubsets){
         cout << endl << "NEW WHILE LOOP: " << endl;
         S = generateSubset(S, subsetsHit);
         subsetsHit++;
     }
+    */
         // if progit of items in S > maxProfit
             //updateMax Profit 
             // copy S to M; // for loop
         // genereate the next subset S
 
     // return maxProfit 
-     return 0;
+     return maxProfit;
 }
 
 
@@ -341,19 +376,24 @@ for(int i = 0; i < vectOfCollections.size(); ++i){
     */
 
 
-
-
     cout << "Market Price File: " << marketPriceFile << endl <<
     "Gertrude Price File: "<< gertrudePriceFile << endl;
 
+    //cout << vectOfCollections.size()  << endl;
+    for(int i = 0; i < vectOfCollections.size(); ++i){
+        vectOfCollections[i].setSum();
+        vectOfCollections[i].setTotalROI();
+    }
+
 
     for(int i = 0; i < vectOfCollections.size(); ++i){
-
-        int tempMaxSpend = vectOfCollections[i].getMaxSpend();
-        computeMaxProfit(vectOfCollections[i], tempMaxSpend);
+        int tempMaxSpend = vectOfCollections[i].getMaxSpend();   
+        int tempSum = vectOfCollections[i].findSum();
+        computeMaxProfit(vectOfCollections[i], tempMaxSpend, tempSum);
     }
 
 
     }
+
     return 0;
 }
