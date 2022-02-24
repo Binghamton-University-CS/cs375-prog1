@@ -46,7 +46,9 @@ vector<Card> generateSubset(vector<Card>& pass, int s){
 
 
 
-int computeMaxProfit(Collection collection, int w, int sumOfWeights){
+int computeMaxProfit(Collection collection, int w){
+   cout << endl << endl << "COMPUTE MAX PROFIT" << endl << endl;
+    //myFile << "WRITE" << endl;
     int sizeOfCollection = collection.getSize();
     cout << "SIZE OF COLLECTION: " << sizeOfCollection << endl;
 
@@ -54,11 +56,13 @@ int computeMaxProfit(Collection collection, int w, int sumOfWeights){
     int maxProfit = 0;
     vector<Card> S; // initial vector
     vector<Card> M;
-   // int sumOfWeights = collection.findSum();
+    int sumOfWeights = collection.findSum();
     if(sumOfWeights < w){
        // cout << " HIT " << endl;
         int prof = 0;
         prof = collection.findTotalROI();
+        cout << "MAX PROFIT: (IF)  " << maxProfit << endl; 
+
         return prof;        
     }
     // generate subsets
@@ -73,21 +77,36 @@ int computeMaxProfit(Collection collection, int w, int sumOfWeights){
         //vector<Card> subset;
         string binaryRep = "";
 
-        binaryRep = bitset<8>(subsetsHit).to_string();
-        cout << endl << endl;
-        cout << "BINARY REP: " << binaryRep << endl;
+        binaryRep = bitset<3>(subsetsHit).to_string();
+       // cout << endl << endl;
+        //cout << "BINARY REP: " << binaryRep << endl;
 
         // use the 1's to get the indexes of a new vector that we will pass back
-        for(int i = 0; i < binaryRep.size(); ++i){
+        
+        /*
+        int maxSize = 0;
+        if(binaryRep.size() > sizeOfCollection){
+            maxSize = binaryRep.size();
+        }
+        else{
+            maxSize = sizeOfCollection;
+        }
+        */
+        for(int i = sizeOfCollection; i > 0; i--){
             if(binaryRep[i] == '1'){
-                subsetCollection.addCard(collection.getSpecificCard(i));
+                subsetCollection.addCard(collection.getSpecificCard(sizeOfCollection - i));
             }
         }
         subsetCollection.setSum();
         subsetCollection.setTotalROI();
+        cout << endl << endl << endl << "Subset Collection:  " << subsetCollection.getSize() << endl;
+        subsetCollection.printCollection();
+      
         int tempROI = subsetCollection.findTotalROI();
         if(tempROI > maxProfit){
             maxProfit = tempROI;
+            // count the number of '1's in the binaryRep to get how many cards are in the subset
+            // or just use the function in colleciton.h
         }
 
        // cout << "LINE 69:  " << collection.getSpecificCard(i) << endl;
@@ -118,6 +137,7 @@ int computeMaxProfit(Collection collection, int w, int sumOfWeights){
         // genereate the next subset S
 
     // return maxProfit 
+    cout << "MAX PROFIT:  " << maxProfit << endl; 
      return maxProfit;
 }
 
@@ -382,15 +402,19 @@ for(int i = 0; i < vectOfCollections.size(); ++i){
     //cout << vectOfCollections.size()  << endl;
     for(int i = 0; i < vectOfCollections.size(); ++i){
         vectOfCollections[i].setSum();
+        vectOfCollections[i].getSpecificCard(i).setROI();
         vectOfCollections[i].setTotalROI();
     }
 
-
+    //ofstream myFile;
+    //myFile.open("example.txt");
     for(int i = 0; i < vectOfCollections.size(); ++i){
         int tempMaxSpend = vectOfCollections[i].getMaxSpend();   
-        int tempSum = vectOfCollections[i].findSum();
-        computeMaxProfit(vectOfCollections[i], tempMaxSpend, tempSum);
+        //int tempSum = vectOfCollections[i].findSum();
+        computeMaxProfit(vectOfCollections[i], tempMaxSpend);
     }
+   // myFile.close();
+
 
 
     }

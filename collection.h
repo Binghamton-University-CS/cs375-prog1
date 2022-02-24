@@ -24,7 +24,12 @@ class Collection{
             totalROI = -1;
            //setOfCards = new vector<Card>();
         }
-        Collection(){};
+        Collection(){
+            numCards = -1;
+            maxSpend = -1;
+            sum = -1;
+            totalROI = -1;
+        };
         void setSum();
         void setTotalROI();
         //get and set max Spend

@@ -76,6 +76,9 @@ class Card{
     int getROI(){
         return ROI;
     }
+    void setROI(){
+        ROI = marketPrice - gertrudePrice;
+    }
 
     void setCardName(string s){
         cardName = s;
