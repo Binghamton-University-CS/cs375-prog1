@@ -1,6 +1,0 @@
-Number of Cards: 2 MAX PROFIT: 2750 Cards In subset: 2
-Number of Cards in collection: 3 MAX PROFIT:  1100 Cards in subset: 2
-Number of Cards in collection: 4 MAX PROFIT:  1280 Cards in subset: 3
-Number of Cards in collection: 4 MAX PROFIT:  1280 Cards in subset: 3
-Number of Cards in collection: 22 MAX PROFIT:  10216 Cards in subset: 8
-Number of Cards in collection: 25 MAX PROFIT:  10416 Cards in subset: 9

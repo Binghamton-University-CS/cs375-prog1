@@ -49,6 +49,7 @@ vector<Card> generateSubset(vector<Card>& pass, int s){
 
 
 int computeMaxProfit(Collection collection, int w){
+   auto start = std::chrono::high_resolution_clock::now();
    ofstream myFile;
    myFile.open("output.txt", ios_base::app);
    //myFile << endl << endl << "FULL SET" << endl;
@@ -65,11 +66,16 @@ int computeMaxProfit(Collection collection, int w){
     if(sumOfWeights < w){
        // cout << " HIT " << endl;
         maxProfit = collection.findTotalROI();
-
+        auto end = std::chrono::high_resolution_clock::now();
+        auto difference = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+        /*
         myFile << "Number of Cards in Collection: " << sizeOfCollection << 
         " MAX PROFIT: " << maxProfit << 
-        " Cards In subset: "<< sizeOfCollection << endl; 
-
+        " Cards In subset: "<< sizeOfCollection << 
+        " Time: " << difference << endl; 
+        */
+       myFile << sizeOfCollection << " "<< maxProfit << 
+       " " << sizeOfCollection << " " << difference << endl;
         return maxProfit;        
     }
     // generate subsets
@@ -151,9 +157,17 @@ int computeMaxProfit(Collection collection, int w){
         // genereate the next subset S
 
     // return maxProfit 
+    auto end = std::chrono::high_resolution_clock::now();
+    auto difference = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+   /* // specifci cout 
      myFile << "Number of Cards in collection: " << sizeOfCollection <<
      " MAX PROFIT:  " << maxProfit << 
-     " Cards in subset: "<< numOfCards << endl;
+     " Cards in subset: "<< numOfCards << 
+     " Time: " << difference << endl;
+*/
+    myFile << sizeOfCollection << " " << maxProfit << " " 
+    << " " << numOfCards << " " << difference << endl;
+
      return maxProfit;
      myFile.close();
 }
