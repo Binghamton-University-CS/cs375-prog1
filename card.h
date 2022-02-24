@@ -48,10 +48,9 @@ class Card{
    
     
 
-    void printCard(){
-        cout << "Gertrude Card Obj " << endl 
-        << "Card Name: " << cardName <<
-        " Gertrude Price:  " << gertrudePrice 
+    void printCardName(){
+        cout << "Card Name: " << cardName <<
+        " Sell Price:  " << gertrudePrice 
         << " Market Price: " << marketPrice 
         << " ROI: " << ROI << endl;
      }
@@ -59,6 +58,11 @@ class Card{
     // getters and setters
     string getCardName(){
         return cardName;
+    }
+    int getNumbers(){
+        return "Gertrude Price: ", gertrudePrice,
+        " Market Price: ", marketPrice,
+        " ROI: ", ROI;
     }
 
     int getGertrudePrice(){

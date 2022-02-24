@@ -61,8 +61,11 @@ class Collection{
         }
         void addCard(Card myCard);
 
-        void printCollection();
+        Card printCollection();
         int findSum();
         int findTotalROI();
+        string getSpecificCardName(int j){
+            return setOfCards[j].getCardName();
+        }
 };
 #endif

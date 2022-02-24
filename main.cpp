@@ -8,6 +8,8 @@
 #include <vector>
 #include <math.h> 
 #include <bitset>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -47,11 +49,14 @@ vector<Card> generateSubset(vector<Card>& pass, int s){
 
 
 int computeMaxProfit(Collection collection, int w){
-   cout << endl << endl << "COMPUTE MAX PROFIT" << endl << endl;
+   ofstream myFile;
+   myFile.open("output.txt", ios_base::app);
+   //myFile << endl << endl << "FULL SET" << endl;
+   //collection.printCollection();
     //myFile << "WRITE" << endl;
     int sizeOfCollection = collection.getSize();
-    cout << "SIZE OF COLLECTION: " << sizeOfCollection << endl;
-
+    //myFile << "SIZE OF COLLECTION: " << sizeOfCollection << endl;
+   // myFile << "SUBSETS BELOW" << endl;
    // this is the collection set 
     int maxProfit = 0;
     vector<Card> S; // initial vector
@@ -59,27 +64,31 @@ int computeMaxProfit(Collection collection, int w){
     int sumOfWeights = collection.findSum();
     if(sumOfWeights < w){
        // cout << " HIT " << endl;
-        int prof = 0;
-        prof = collection.findTotalROI();
-        cout << "MAX PROFIT: (IF)  " << maxProfit << endl; 
+        maxProfit = collection.findTotalROI();
 
-        return prof;        
+        myFile << "Number of Cards in Collection: " << sizeOfCollection << 
+        " MAX PROFIT: " << maxProfit << 
+        " Cards In subset: "<< sizeOfCollection << endl; 
+
+        return maxProfit;        
     }
     // generate subsets
     int totalSubsets = pow(sizeOfCollection, 2);
     //cout << "Size of colleciton: " << sizeOfCollection << endl;
     // cout << "Total Subsets: " << totalSubsets << endl;
     // while more subsets to generate
-    int subsetsHit = 0;
-    while(subsetsHit <= totalSubsets){
-        
+    int subsetsHit = 0; // this may need to start at 1 or  0
+    int numOfCards = 0;
+    while(subsetsHit < totalSubsets){ // < or <=
         Collection subsetCollection;
         //vector<Card> subset;
         string binaryRep = "";
+        // what number to put in here!!!!!, changes maxProfit output as well. 
+        // it should match the sizeOfCollection
+        binaryRep = bitset<32>(subsetsHit).to_string(); 
 
-        binaryRep = bitset<3>(subsetsHit).to_string();
        // cout << endl << endl;
-        //cout << "BINARY REP: " << binaryRep << endl;
+        // cout << "BINARY REP: " << binaryRep << endl;
 
         // use the 1's to get the indexes of a new vector that we will pass back
         
@@ -92,19 +101,24 @@ int computeMaxProfit(Collection collection, int w){
             maxSize = sizeOfCollection;
         }
         */
-        for(int i = sizeOfCollection; i > 0; i--){
+        for(int i = 31; i >= 32 - sizeOfCollection; i--){
             if(binaryRep[i] == '1'){
-                subsetCollection.addCard(collection.getSpecificCard(sizeOfCollection - i));
+                subsetCollection.addCard(collection.getSpecificCard(32 - i - 1));
             }
         }
         subsetCollection.setSum();
         subsetCollection.setTotalROI();
-        cout << endl << endl << endl << "Subset Collection:  " << subsetCollection.getSize() << endl;
-        subsetCollection.printCollection();
-      
+        //myFile << endl << endl << endl << "Size of Collection:  " << subsetCollection.getSize() << endl;
+       /*
+        for(int i = 0; i < subsetCollection.getSize(); ++i){
+            myFile << subsetCollection.getSpecificCardName(i) << endl;
+        }
+        */
         int tempROI = subsetCollection.findTotalROI();
+        //myFile << "Profit for this subset: " << tempROI << endl;
         if(tempROI > maxProfit){
             maxProfit = tempROI;
+            numOfCards = subsetCollection.getSize();
             // count the number of '1's in the binaryRep to get how many cards are in the subset
             // or just use the function in colleciton.h
         }
@@ -137,8 +151,11 @@ int computeMaxProfit(Collection collection, int w){
         // genereate the next subset S
 
     // return maxProfit 
-    cout << "MAX PROFIT:  " << maxProfit << endl; 
+     myFile << "Number of Cards in collection: " << sizeOfCollection <<
+     " MAX PROFIT:  " << maxProfit << 
+     " Cards in subset: "<< numOfCards << endl;
      return maxProfit;
+     myFile.close();
 }
 
 
@@ -210,10 +227,10 @@ int main(int argc, char** argv){
                 int marketPrice = stoi(marketPriceStr);
                 CardMK cardObjMK(cardName, marketPrice);
                 cardsMarket.push_back(cardObjMK);
-                cout << endl << endl << endl;
-                cout << "PRINTING FROM MARKET FILE" << endl;
-                cardsMarket[cardsMarketIndex].printCardMK();
-                cout << endl;
+                //cout << endl << endl << endl;
+                //cout << "PRINTING FROM MARKET FILE" << endl;
+                //cardsMarket[cardsMarketIndex].printCardMK();
+                //cout << endl;
                 
                 cardsMarketIndex++;
 
@@ -301,7 +318,7 @@ int main(int argc, char** argv){
                // cout << "SIZE OF Vector of COllections: " << vectOfCollections.size() << endl;
 
                 vectOfCollections.push_back(myCollection); 
-                cout << "SIZE OF Vector of Collections: " << vectOfCollections.size() << endl;
+              //  cout << "SIZE OF Vector of Collections: " << vectOfCollections.size() << endl;
                 setsViewed++;
                 cardsViewed = 0;
 
@@ -367,14 +384,15 @@ int main(int argc, char** argv){
  //  *********************************
 
 
-    cout << endl << endl << endl;
+    // << endl << endl << endl;
 
+/*
 for(int i = 0; i < vectOfCollections.size(); ++i){
     cout << "Set: " << i << endl;
     vectOfCollections[i].printCollection();
     cout << endl << endl << endl;
 }
-
+*/
 
 
 
@@ -406,7 +424,6 @@ for(int i = 0; i < vectOfCollections.size(); ++i){
         vectOfCollections[i].setTotalROI();
     }
 
-    //ofstream myFile;
     //myFile.open("example.txt");
     for(int i = 0; i < vectOfCollections.size(); ++i){
         int tempMaxSpend = vectOfCollections[i].getMaxSpend();   
